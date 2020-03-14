@@ -4,6 +4,7 @@ export default class Main extends Phaser.Scene {
     constructor() {
         super('main');
         this.velocityStep = 400;
+        this.saltoVelocity = 100;
     }
 
     setRegistry(name, value) {
@@ -80,12 +81,18 @@ export default class Main extends Phaser.Scene {
         });
         this.anims.create({
             key: 'rumble_salto_part_1',
-            frames: this.anims.generateFrameNumbers('rumble_salto', { start: 0, end: 10 }),
+            frames: this.anims.generateFrameNumbers('rumble_salto', { start: 0, end: 6 }),
             frameRate: 14,
             repeat: 0,
         });
         this.anims.create({
             key: 'rumble_salto_part_2',
+            frames: this.anims.generateFrameNumbers('rumble_salto', { start: 7, end: 10 }),
+            frameRate: 14,
+            repeat: 0,
+        });
+        this.anims.create({
+            key: 'rumble_salto_part_3',
             frames: this.anims.generateFrameNumbers('rumble_salto', { start: 11, end: 16 }),
             frameRate: 14,
             repeat: 0,
@@ -124,19 +131,19 @@ export default class Main extends Phaser.Scene {
 
         // Сальто
         if (!this.strikeInProgress && Phaser.Input.Keyboard.JustDown(this.keyS)) {
+            const inMoving = this.player.body.velocity.x;
             this.player.setVelocityX(0);
             this.player.anims.stop();
             this.strikeInProgress = true;
-            this.player.once('animationcomplete', () => {
-                this.cameras.main.shake(200, 0.005, true);
-                this.player.once('animationcomplete', () => {
-                    this.strikeInProgress = false;
-                    this.player.y += 45;
-                });
-                this.player.anims.play('rumble_salto_part_2', true);
-            });
             this.player.y -= 45;
-            this.player.anims.play('rumble_salto_part_1', true);
+            if (inMoving) {
+                this.saltoInMoving();
+            } else {
+                this.player.once('animationcomplete', () => {
+                    this.saltoInMoving();
+                });
+                this.player.anims.play('rumble_salto_part_1', true);
+            }
         }
 
         if (!this.strikeInProgress) {
@@ -162,5 +169,23 @@ export default class Main extends Phaser.Scene {
                 this.player.anims.play('rumble_stance', true);
             }
         }
+    }
+
+    shakeGround() {
+        this.cameras.main.shake(200, 0.005, true);
+    }
+
+    saltoInMoving() {
+        this.player.once('animationcomplete', () => {
+            this.player.setVelocityX(0);
+            this.shakeGround();
+            this.player.once('animationcomplete', () => {
+                this.strikeInProgress = false;
+                this.player.y += 45;
+            });
+            this.player.anims.play('rumble_salto_part_3', true);
+        });
+        this.player.setVelocityX(this.saltoVelocity * (this.player.flipX ? -1 : 1));
+        this.player.anims.play('rumble_salto_part_2', true);
     }
 }
