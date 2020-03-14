@@ -1,0 +1,40 @@
+{
+  "name": "rumbleWins",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Fighting Game With Rumble McSkirmish",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack --config webpack/prod.js",
+    "start": "webpack-dev-server --config webpack/dev.js",
+    "postinstall": "ln -sf `pwd`/githooks/* .git/hooks/"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.2.3",
+    "@hh.ru/eslint-config": "^5.0.2",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "clean-webpack-plugin": "^1.0.0",
+    "copy-webpack-plugin": "^5.0.3",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-import-resolver-webpack": "^0.11.1",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "file-loader": "^3.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "lint-staged": "^9.4.2",
+    "prettier": "^1.17.0",
+    "raw-loader": "^1.0.0",
+    "terser-webpack-plugin": "^1.2.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
+    "webpack-merge": "^4.2.1"
+  },
+  "dependencies": {
+    "phaser": "3.22.0"
+  }
+}
