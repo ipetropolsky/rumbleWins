@@ -39,8 +39,8 @@ export default class Main extends Phaser.Scene {
             frameWidth: 196,
             frameHeight: 120,
         });
-        this.load.spritesheet('rumble_salto', 'src/assets/rumble/salto_208x150.png', {
-            frameWidth: 208,
+        this.load.spritesheet('rumble_salto', 'src/assets/rumble/salto_long_176x150.png', {
+            frameWidth: 176,
             frameHeight: 150,
         });
     }
@@ -80,13 +80,13 @@ export default class Main extends Phaser.Scene {
         });
         this.anims.create({
             key: 'rumble_salto_part_1',
-            frames: this.anims.generateFrameNumbers('rumble_salto', { start: 0, end: 5 }),
+            frames: this.anims.generateFrameNumbers('rumble_salto', { start: 0, end: 10 }),
             frameRate: 14,
             repeat: 0,
         });
         this.anims.create({
             key: 'rumble_salto_part_2',
-            frames: this.anims.generateFrameNumbers('rumble_salto', { start: 6, end: 7 }),
+            frames: this.anims.generateFrameNumbers('rumble_salto', { start: 11, end: 16 }),
             frameRate: 14,
             repeat: 0,
         });
@@ -130,7 +130,6 @@ export default class Main extends Phaser.Scene {
             this.player.once('animationcomplete', () => {
                 this.cameras.main.shake(200, 0.005, true);
                 this.player.once('animationcomplete', () => {
-                    this.cameras.main.shake(200, 0.005, true);
                     this.strikeInProgress = false;
                     this.player.y += 45;
                 });
