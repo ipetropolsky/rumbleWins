@@ -2,8 +2,14 @@ import Phaser from 'phaser';
 
 const QueueManager = (scene) => {
     let queue = [];
+    const isActual = (task) => {
+        return scene.time.now - task.time < 2000;
+    };
     return {
-        isEmpty: () => !queue.length,
+        isEmpty: () => !queue.filter(isActual).length,
+
+        isActual,
+
         add: (fn) => {
             if (queue.length < 3) {
                 const time = scene.time.now;
@@ -13,9 +19,9 @@ const QueueManager = (scene) => {
 
         get: () => {
             if (queue.length) {
-                const action = queue.shift();
-                if (scene.time.now - action.time < 3000) {
-                    return action.fn;
+                const task = queue.shift();
+                if (isActual(task)) {
+                    return task.fn;
                 }
             }
             return undefined;
@@ -145,9 +151,55 @@ export default class Main extends Phaser.Scene {
         this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.strikeInProgress = false;
         this.cameras.main.fadeIn(1000);
+
+        this.salto = async () => {
+            const inMoving = this.player.body.velocity.x;
+            this.player.setVelocityX(0);
+            this.player.anims.stop();
+            this.strikeInProgress = true;
+            this.player.y -= 45;
+            if (!inMoving) {
+                await this.animatePlayer('rumble_salto_part_1');
+            }
+            this.saltoInMoving();
+        };
+
+        this.saltoInMoving = async () => {
+            this.player.setVelocityX(this.saltoVelocity * (this.player.flipX ? -1 : 1));
+            await this.animatePlayer('rumble_salto_part_2');
+            this.player.setVelocityX(0);
+            this.shakeGround();
+            if (this.queue.isEmpty()) {
+                await this.animatePlayer('rumble_salto_part_3');
+            }
+            this.strikeInProgress = false;
+            this.player.y += 45;
+        };
+
+        this.punchLeft = async () => {
+            this.player.setVelocityX(0);
+            this.player.anims.stop();
+            this.strikeInProgress = true;
+            await this.animatePlayer('rumble_punch_left');
+            if (this.queue.isEmpty()) {
+                await this.animatePlayer('rumble_punch_left_return');
+            }
+            this.strikeInProgress = false;
+        };
+
+        this.punchRight = async () => {
+            this.player.setVelocityX(0);
+            this.player.anims.stop();
+            this.strikeInProgress = true;
+            await this.animatePlayer('rumble_punch_right');
+            if (this.queue.isEmpty()) {
+                await this.animatePlayer('rumble_punch_right_return');
+            }
+            this.strikeInProgress = false;
+        };
     }
 
-    update() {
+    async update() {
         // Прямой в челюсть слева
         if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
             if (this.strikeInProgress) {
@@ -210,72 +262,12 @@ export default class Main extends Phaser.Scene {
         this.cameras.main.shake(200, 0.005, true);
     };
 
-    punchLeft = () => {
-        this.player.setVelocityX(0);
-        this.player.anims.stop();
-        this.strikeInProgress = true;
-        this.player.once('animationcomplete', () => {
-            if (this.queue.isEmpty()) {
-                this.player.once('animationcomplete', () => {
-                    this.strikeInProgress = false;
-                });
-                this.player.anims.play('rumble_punch_left_return', true);
-            } else {
-                this.strikeInProgress = false;
-            }
-        });
-        this.player.anims.play('rumble_punch_left', true);
-    };
-
-    punchRight = () => {
-        this.player.setVelocityX(0);
-        this.player.anims.stop();
-        this.strikeInProgress = true;
-        this.player.once('animationcomplete', () => {
-            if (this.queue.isEmpty()) {
-                this.player.once('animationcomplete', () => {
-                    this.strikeInProgress = false;
-                });
-                this.player.anims.play('rumble_punch_right_return', true);
-            } else {
-                this.strikeInProgress = false;
-            }
-        });
-        this.player.anims.play('rumble_punch_right', true);
-    };
-
-    salto = () => {
-        const inMoving = this.player.body.velocity.x;
-        this.player.setVelocityX(0);
-        this.player.anims.stop();
-        this.strikeInProgress = true;
-        this.player.y -= 45;
-        if (inMoving) {
-            this.saltoInMoving();
-        } else {
+    animatePlayer = (animationName) => {
+        return new Promise((resolve) => {
+            this.player.anims.play(animationName, true);
             this.player.once('animationcomplete', () => {
-                this.saltoInMoving();
+                resolve();
             });
-            this.player.anims.play('rumble_salto_part_1', true);
-        }
-    };
-
-    saltoInMoving = () => {
-        this.player.once('animationcomplete', () => {
-            this.player.setVelocityX(0);
-            this.shakeGround();
-            if (this.queue.isEmpty()) {
-                this.player.once('animationcomplete', () => {
-                    this.strikeInProgress = false;
-                    this.player.y += 45;
-                });
-                this.player.anims.play('rumble_salto_part_3', true);
-            } else {
-                this.strikeInProgress = false;
-                this.player.y += 45;
-            }
         });
-        this.player.setVelocityX(this.saltoVelocity * (this.player.flipX ? -1 : 1));
-        this.player.anims.play('rumble_salto_part_2', true);
     };
 }
