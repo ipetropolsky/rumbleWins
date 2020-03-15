@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import 'regenerator-runtime/runtime';
 import SceneMain from 'src/scenes/main';
 
 const config = {
