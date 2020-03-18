@@ -11,7 +11,7 @@ module.exports = merge(base, {
     output: {
         path: distPath,
         filename: 'bundle.min.js',
-        publicPath: '/spaceGalaxy',
+        publicPath: '/rumbleWins',
     },
     performance: {
         maxEntrypointSize: 900000,
