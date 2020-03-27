@@ -92,7 +92,7 @@ export default class Main extends Phaser.Scene {
     create() {
         const strikeFrameRate = 14;
         this.add.image(640, 360, 'background').setScale(1);
-        this.player = this.physics.add.sprite(640, 500, 'rumble_stance').setScale(3);
+        this.player = this.physics.add.sprite(640, 550, 'rumble_stance').setScale(2);
         this.anims.create({
             key: 'rumble_stance',
             frames: this.anims.generateFrameNumbers('rumble_stance', { start: 0, end: 13 }),
@@ -183,7 +183,7 @@ export default class Main extends Phaser.Scene {
             this.player.setVelocityX(0);
             this.player.anims.stop();
             this.strikeInProgress = true;
-            this.player.y -= 45;
+            this.player.y -= 15 * this.player.scaleY;
             if (!inMoving) {
                 await this.animatePlayer('rumble_salto_part_1');
             }
@@ -199,7 +199,7 @@ export default class Main extends Phaser.Scene {
                 await this.animatePlayer('rumble_salto_part_3');
             }
             this.strikeInProgress = false;
-            this.player.y += 45;
+            this.player.y += 15 * this.player.scaleY;
         };
 
         this.punchLeft = async () => {
@@ -227,7 +227,7 @@ export default class Main extends Phaser.Scene {
         this.jump = async () => {
             this.jumpInProgress = true;
             this.player.anims.stop();
-            this.player.y -= 30;
+            this.player.y -= 10 * this.player.scaleY;
             let jumpVelocity = 0;
             if (this.cursors.left.isDown) {
                 jumpVelocity = -this.jumpVelocity;
@@ -244,7 +244,7 @@ export default class Main extends Phaser.Scene {
                 await this.animatePlayer('rumble_jump_landing');
             }
             this.jumpInProgress = false;
-            this.player.y += 30;
+            this.player.y += 10 * this.player.scaleY;
         };
     }
 
