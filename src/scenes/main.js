@@ -40,10 +40,11 @@ export default class Main extends Phaser.Scene {
         this.saltoVelocity = 100;
         this.jumpVelocity = 600;
         this.jumpDuration = 300;
-        this.jumpTopY = 50;
+        this.jumpTopY = 150;
         this.queue = new QueueManager(this);
         this.strikeInProgress = false;
         this.jumpInProgress = false;
+        this.changePunch = false;
     }
 
     setRegistry(name, value) {
@@ -86,6 +87,10 @@ export default class Main extends Phaser.Scene {
         this.load.spritesheet('rumble_jump', 'src/assets/rumble/jump_104x140.png', {
             frameWidth: 104,
             frameHeight: 140,
+        });
+        this.load.spritesheet('rumble_jump_kick', 'src/assets/rumble/jump_kick_203x130.png', {
+            frameWidth: 203,
+            frameHeight: 130,
         });
     }
 
@@ -171,10 +176,15 @@ export default class Main extends Phaser.Scene {
             frameRate: strikeFrameRate,
             repeat: 0,
         });
+        this.anims.create({
+            key: 'rumble_jump_kick',
+            frames: this.anims.generateFrameNumbers('rumble_jump_kick', { start: 0, end: 5 }),
+            frameRate: strikeFrameRate,
+            repeat: 0,
+        });
         this.player.anims.play('rumble_stance', true);
         this.cursors = this.input.keyboard.createCursorKeys();
         this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.cameras.main.fadeIn(1000);
 
@@ -202,25 +212,15 @@ export default class Main extends Phaser.Scene {
             this.player.y += 15 * this.player.scaleY;
         };
 
-        this.punchLeft = async () => {
+        this.punch = async () => {
             this.player.setVelocityX(0);
             this.player.anims.stop();
             this.strikeInProgress = true;
-            await this.animatePlayer('rumble_punch_left');
+            await this.animatePlayer(this.changePunch ? 'rumble_punch_right' : 'rumble_punch_left');
             if (this.queue.isEmpty()) {
-                await this.animatePlayer('rumble_punch_left_return');
+                await this.animatePlayer(this.changePunch ? 'rumble_punch_right_return' : 'rumble_punch_left_return');
             }
-            this.strikeInProgress = false;
-        };
-
-        this.punchRight = async () => {
-            this.player.setVelocityX(0);
-            this.player.anims.stop();
-            this.strikeInProgress = true;
-            await this.animatePlayer('rumble_punch_right');
-            if (this.queue.isEmpty()) {
-                await this.animatePlayer('rumble_punch_right_return');
-            }
+            this.changePunch = !this.changePunch;
             this.strikeInProgress = false;
         };
 
@@ -246,34 +246,42 @@ export default class Main extends Phaser.Scene {
             this.jumpInProgress = false;
             this.player.y += 10 * this.player.scaleY;
         };
+
+        this.jumpKick = async () => {
+            this.strikeInProgress = true;
+            this.player.anims.stop();
+            await this.animatePlayer('rumble_jump_kick');
+            this.strikeInProgress = false;
+        };
     }
 
     async update() {
-        // Прямой в челюсть слева
-        if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
-            if (this.strikeInProgress || this.jumpInProgress) {
-                this.queue.add(this.punchLeft);
-            } else {
-                this.punchLeft();
-            }
+        // Прыжок
+        if (!this.jumpInProgress && !this.strikeInProgress && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
+            this.jump();
         }
 
-        // Прямой в челюсть справа
-        if (Phaser.Input.Keyboard.JustDown(this.keyD)) {
+        // Прямой в челюсть слева-справа
+        if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
             if (this.strikeInProgress || this.jumpInProgress) {
-                this.queue.add(this.punchRight);
+                this.queue.add(this.punch);
             } else {
-                this.punchRight();
+                this.punch();
             }
         }
 
         // Сальто
-        if (Phaser.Input.Keyboard.JustDown(this.keyS)) {
-            if (this.strikeInProgress || this.jumpInProgress) {
+        if (!this.jumpInProgress && Phaser.Input.Keyboard.JustDown(this.keyS)) {
+            if (this.strikeInProgress) {
                 this.queue.add(this.salto);
             } else {
                 this.salto();
             }
+        }
+
+        // Удар ногой в воздухе
+        if (this.jumpInProgress && Phaser.Input.Keyboard.JustDown(this.keyS)) {
+            this.jumpKick();
         }
 
         if (!this.strikeInProgress && !this.jumpInProgress) {
@@ -282,11 +290,6 @@ export default class Main extends Phaser.Scene {
                 this.player.flipX = true;
             } else if (this.cursors.right.isDown) {
                 this.player.flipX = false;
-            }
-
-            // Прыжок
-            if (Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
-                this.jump();
             }
 
             if (!this.jumpInProgress) {
