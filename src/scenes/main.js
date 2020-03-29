@@ -1,4 +1,7 @@
 import Phaser from 'phaser';
+import PumpkinGroup from 'src/pumpkins';
+import BangGroup, { PowGroup } from 'src/bangs';
+import { deactivate } from 'src/utils';
 
 const QueueManager = (scene) => {
     let queue = [];
@@ -38,13 +41,10 @@ export default class Main extends Phaser.Scene {
         super('main');
         this.velocityStep = 400;
         this.saltoVelocity = 100;
+        this.damageVelocity = 300;
         this.jumpVelocity = 600;
         this.jumpDuration = 300;
         this.jumpTopY = 150;
-        this.queue = new QueueManager(this);
-        this.strikeInProgress = false;
-        this.jumpInProgress = false;
-        this.changePunch = false;
     }
 
     setRegistry(name, value) {
@@ -60,6 +60,7 @@ export default class Main extends Phaser.Scene {
 
     preload() {
         this.load.image('background', 'src/assets/background.jpg');
+        this.load.image('spacer', 'src/assets/spacer_white.gif');
         this.load.spritesheet('rumble_stance', 'src/assets/rumble/stance_104x120.png', {
             frameWidth: 104,
             frameHeight: 120,
@@ -92,12 +93,46 @@ export default class Main extends Phaser.Scene {
             frameWidth: 203,
             frameHeight: 130,
         });
+        this.load.spritesheet('rumble_damage', 'src/assets/rumble/damage_126x120.png', {
+            frameWidth: 126,
+            frameHeight: 120,
+        });
+        this.load.spritesheet('rumble_falls', 'src/assets/rumble/fallen_131x33.png', {
+            frameWidth: 131,
+            frameHeight: 33,
+        });
+        this.load.spritesheet('maneken', 'src/assets/maneken_120x120.png', {
+            frameWidth: 120,
+            frameHeight: 120,
+        });
+        this.load.spritesheet('apple', 'src/assets/apple_small_32x32.png', {
+            frameWidth: 32,
+            frameHeight: 32,
+        });
+        this.load.spritesheet('pumpkin', 'src/assets/pumpkin_32x32.png', {
+            frameWidth: 32,
+            frameHeight: 32,
+        });
+        this.load.image('bang_word', 'src/assets/bang_word.png');
+        this.load.image('pow_word', 'src/assets/pow_word.png');
+        this.load.image('game_over', 'src/assets/game_over.png');
     }
 
     create() {
         const strikeFrameRate = 14;
         this.add.image(640, 360, 'background').setScale(1);
-        this.player = this.physics.add.sprite(640, 550, 'rumble_stance').setScale(2);
+        this.player = this.physics.add
+            .sprite(640, 550, 'rumble_stance')
+            .setScale(2)
+            .setCollideWorldBounds(true);
+        this.player.body.setSize(60, 110);
+        this.player.body.setOffset(20, 10);
+        this.player.body.setBoundsRectangle(
+            new Phaser.Geom.Rectangle(0, 0, this.sys.scale.width, this.sys.scale.height - 25)
+        );
+        this.maneken = this.physics.add.sprite(1040, 550, 'maneken').setScale(2);
+        this.apple = this.physics.add.sprite(750, 500, 'apple').setScale(2);
+
         this.anims.create({
             key: 'rumble_stance',
             frames: this.anims.generateFrameNumbers('rumble_stance', { start: 0, end: 13 }),
@@ -182,10 +217,71 @@ export default class Main extends Phaser.Scene {
             frameRate: strikeFrameRate,
             repeat: 0,
         });
+        this.anims.create({
+            key: 'rumble_damage',
+            frames: this.anims.generateFrameNumbers('rumble_damage', { start: 0, end: 0 }),
+            frameRate: 7,
+            repeat: 0,
+        });
+        this.anims.create({
+            key: 'rumble_falls',
+            frames: this.anims.generateFrameNumbers('rumble_falls', { start: 0, end: 0 }),
+            frameRate: 7,
+            repeat: 0,
+        });
+        this.anims.create({
+            key: 'bang',
+            frames: this.anims.generateFrameNumbers('bang_word', { start: 0, end: 1 }),
+            frameRate: 7,
+            repeat: 0,
+        });
+        this.anims.create({
+            key: 'pow',
+            frames: this.anims.generateFrameNumbers('pow_word', { start: 0, end: 1 }),
+            frameRate: 7,
+            repeat: 0,
+        });
+
+        this.bangs = new BangGroup(this.physics.world, this);
+        this.pows = new PowGroup(this.physics.world, this);
+
+        this.health = 100;
+        this.add.rectangle(120, 20, 200, 10, 0xffffff);
+        this.healthIndicator = this.add.rectangle(120, 20, 200, 10, 0xea6447);
+        this.add.rectangle(120, 20, 200, 10, 0xffffff, 0).setStrokeStyle(2, 0x0a3730);
+
+        this.ground = this.physics.add
+            .image(this.sys.scale.width / 2 - 1, this.sys.scale.height - 25, 'spacer')
+            .setImmovable();
+        this.ground.setSize(this.sys.scale.width + 2, 50);
+        this.ground.alpha = 0;
+        this.ground.setFriction(1, 1);
+
+        this.pumpkins = new PumpkinGroup(this.physics.world, this);
+        this.physics.add.collider(this.pumpkins, this.ground);
+        this.physics.add.overlap(this.pumpkins, this.player, async (player, pumpkin) => {
+            const direction = pumpkin.x > player.x ? -1 : 1;
+            if (this.strikeInProgress) {
+                this.pows.createOne(pumpkin, player);
+                deactivate(pumpkin);
+            } else {
+                this.bangs.createOne(pumpkin, player);
+                deactivate(pumpkin);
+                this.health = Math.max(0, this.health - 10);
+                if (!this.health) {
+                    await this.fall(direction);
+                    this.gameOver();
+                } else {
+                    await this.damage(direction);
+                }
+            }
+        });
+
         this.player.anims.play('rumble_stance', true);
         this.cursors = this.input.keyboard.createCursorKeys();
         this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.cameras.main.fadeIn(1000);
 
         this.salto = async () => {
@@ -193,11 +289,13 @@ export default class Main extends Phaser.Scene {
             this.player.setVelocityX(0);
             this.player.anims.stop();
             this.strikeInProgress = true;
+            this.player.body.setOffset(56, 40);
             this.player.y -= 15 * this.player.scaleY;
             if (!inMoving) {
                 await this.animatePlayer('rumble_salto_part_1');
             }
-            this.saltoInMoving();
+            await this.saltoInMoving();
+            this.player.body.setOffset(20, 10);
         };
 
         this.saltoInMoving = async () => {
@@ -216,10 +314,12 @@ export default class Main extends Phaser.Scene {
             this.player.setVelocityX(0);
             this.player.anims.stop();
             this.strikeInProgress = true;
+            this.player.body.setOffset(66, 10);
             await this.animatePlayer(this.changePunch ? 'rumble_punch_right' : 'rumble_punch_left');
             if (this.queue.isEmpty()) {
                 await this.animatePlayer(this.changePunch ? 'rumble_punch_right_return' : 'rumble_punch_left_return');
             }
+            this.player.body.setOffset(20, 10);
             this.changePunch = !this.changePunch;
             this.strikeInProgress = false;
         };
@@ -240,7 +340,7 @@ export default class Main extends Phaser.Scene {
             this.player.anims.play('rumble_jump', true);
             await this.tweenPlayer({ duration: this.jumpDuration, y: this.jumpTopY });
             this.player.setVelocityX(0);
-            if (this.queue.isEmpty()) {
+            if (this.queue.isEmpty() && !this.inShock) {
                 await this.animatePlayer('rumble_jump_landing');
             }
             this.jumpInProgress = false;
@@ -250,12 +350,78 @@ export default class Main extends Phaser.Scene {
         this.jumpKick = async () => {
             this.strikeInProgress = true;
             this.player.anims.stop();
+            this.player.body.setOffset(66, 15);
             await this.animatePlayer('rumble_jump_kick');
+            this.player.body.setOffset(20, 10);
             this.strikeInProgress = false;
         };
+
+        this.damage = async (direction = 1) => {
+            this.inShock = true;
+            this.player.anims.stop();
+            this.player.setVelocityX(this.damageVelocity * direction);
+            await this.animatePlayer('rumble_damage');
+            this.player.setVelocityX(0);
+            this.inShock = false;
+        };
+
+        this.fall = async (direction = 1) => {
+            this.inShock = true;
+            this.player.anims.stop();
+            this.player.setVelocityX(0);
+            this.player.setVelocityY(0);
+            const k = 1 + (550 - this.player.y) / 400;
+            const delay = 200 * k;
+            this.activeTween && this.activeTween.stop();
+            this.player.body.setSize(131, 31);
+            this.player.body.setOffset(0, 0);
+            this.player.setTexture('rumble_damage');
+            // await this.animatePlayer('rumble_damage');
+            this.time.delayedCall(delay / 2, () => {
+                this.player.setTexture('rumble_falls');
+            });
+            this.tweenPlayer({
+                duration: delay,
+                x: this.player.x + direction * 200 * k,
+                yoyo: false,
+                ease: 'Linear',
+            });
+            await this.tweenPlayer({
+                duration: delay,
+                y: this.sys.scale.height - 25 - 28 * this.player.scaleY,
+                yoyo: false,
+                // ease: 'Back.easeIn',
+                ease: 'Linear',
+            });
+            this.shakeGround();
+            // this.player.body.setSize(60, 110);
+            // this.player.body.setOffset(20, 10);
+            this.inShock = false;
+        };
+
+        this.queue = new QueueManager(this);
+        this.strikeInProgress = false;
+        this.jumpInProgress = false;
+        this.changePunch = false;
+        this.gameIsOver = false;
     }
 
     async update() {
+        if (this.gameIsOver) {
+            return;
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.keySpace)) {
+            const rnd = Math.random();
+            this.pumpkins.createOne(1040, 500, -1 * (300 + rnd * 1000), -1 * (-200 + (1 - rnd) * 1500));
+        }
+
+        this.healthIndicator.setSize(this.health * 2, 10);
+
+        if (this.inShock) {
+            return;
+        }
+
         // Прыжок
         if (!this.jumpInProgress && !this.strikeInProgress && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
             this.jump();
@@ -332,7 +498,7 @@ export default class Main extends Phaser.Scene {
 
     tweenPlayer = (tweenParams) => {
         return new Promise((resolve) => {
-            this.tweens.add({
+            this.activeTween = this.tweens.add({
                 targets: this.player,
                 ease: 'Sine.easeOut',
                 repeat: 0,
@@ -342,6 +508,20 @@ export default class Main extends Phaser.Scene {
                     resolve();
                 },
             });
+        });
+    };
+
+    gameOver = async () => {
+        this.gameIsOver = true;
+        this.add
+            .image(640, 360, 'game_over')
+            .setScale(4)
+            .setInteractive();
+        this.input.once('pointerdown', () => {
+            this.scene.restart();
+        });
+        this.input.keyboard.once('keydown-SPACE', () => {
+            this.scene.restart();
         });
     };
 }
