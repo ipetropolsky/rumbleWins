@@ -13,10 +13,10 @@ class Pumpkin extends Phaser.Physics.Arcade.Sprite {
         activate(this, x, y, vx, vy);
         this.setGravity(0, 1000);
         this.setMass(10);
-        this.setDrag(100, 100);
+        this.setDrag(50, 100);
         this.setBounce(0.4, 0.4);
-        this.setFriction(1, 1);
         this.setScale(2);
+        this.setCircle(10, 6, 9);
     }
 }
 

@@ -56,3 +56,29 @@ class Pow extends Bang {
 export class PowGroup extends BangGroup {
     classType = Pow;
 }
+
+class Bang2 extends Phaser.Physics.Arcade.Sprite {
+    constructor(scene, x, y, texture) {
+        super(scene, x, y, texture || 'bang2');
+    }
+
+    put(x, y, vx, vy) {
+        activate(this, x, y, vx, vy);
+        this.setScale(3);
+        this.once('animationcomplete', () => {
+            deactivate(this);
+        });
+        this.anims.play('bang2');
+    }
+}
+
+export class BangGroup2 extends BangGroup {
+    classType = Bang2;
+    depth = BULLET;
+
+    createOne(gameObject) {
+        const bang = this.get();
+        bang.put(gameObject.x, gameObject.body.center.y, 0, 0);
+        return bang;
+    }
+}
