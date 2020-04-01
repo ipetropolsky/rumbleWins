@@ -70,6 +70,10 @@ export default class Main extends Phaser.Scene {
             frameWidth: 50,
             frameHeight: 50,
         });
+        this.load.spritesheet('angry', 'src/assets/angry.png', {
+            frameWidth: 184,
+            frameHeight: 104,
+        });
         this.load.image('bang_word', 'src/assets/bang_word.png');
         this.load.image('pow_word', 'src/assets/pow_word.png');
         this.load.image('game_over', 'src/assets/game_over.png');
@@ -158,6 +162,45 @@ export default class Main extends Phaser.Scene {
             frameRate: 7,
             repeat: 0,
         });
+
+        this.anims.create({
+            key: 'angry',
+            frames: this.anims.generateFrameNumbers('angry', { start: 0, end: 5 }),
+            frameRate: 12,
+            repeat: -1,
+        });
+
+        this.angry = this.add
+            .sprite(0, 0, 'angry')
+            .setOrigin(0, 1)
+            .setDepth(1000)
+            .setVisible(false);
+        this.angry.setPosition(-this.angry.width, this.screenHeight() + this.angry.height);
+
+        this.say = async (audio) => {
+            this.angry.anims.stop();
+            this.angry.setFrame(3);
+            this.angry.setVisible(true);
+            await this.tween(this.angry, {
+                x: 0,
+                y: this.screenHeight(),
+                duration: 500,
+                yoyo: false,
+            });
+            // this.sounds[audio].play({ volume: 0.5 });
+            this.time.delayedCall(this.sounds[audio].duration * 1000, async () => {
+                this.angry.anims.stop();
+                this.angry.setFrame(3);
+                await this.tween(this.angry, {
+                    x: -this.angry.width,
+                    y: this.screenHeight() + this.angry.height,
+                    duration: 500,
+                    yoyo: false,
+                });
+                this.angry.setVisible(false);
+            });
+            this.angry.anims.play('angry');
+        };
 
         this.bangs2 = new BangGroup2(this.physics.world, this);
         this.bangs = new BangGroup(this.physics.world, this);
