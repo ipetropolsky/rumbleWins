@@ -47,6 +47,7 @@ export default class Main extends Phaser.Scene {
         this.jumpTopY = 150;
         this.groundHeight = 50;
         this.strikeFrameRate = 14;
+        this.gameOverDelay = 1000;
     }
 
     preload() {
@@ -72,6 +73,7 @@ export default class Main extends Phaser.Scene {
         this.load.image('bang_word', 'src/assets/bang_word.png');
         this.load.image('pow_word', 'src/assets/pow_word.png');
         this.load.image('game_over', 'src/assets/game_over.png');
+        this.load.image('continue', 'src/assets/continue.png');
     }
 
     create() {
@@ -181,7 +183,7 @@ export default class Main extends Phaser.Scene {
             } else {
                 this.bangs.createOne(pumpkin, player);
                 deactivate(pumpkin);
-                this.health = Math.max(0, this.health - 150);
+                this.health = Math.max(0, this.health - 15);
                 if (!this.health) {
                     await this.fall(direction);
                     this.gameOver();
@@ -337,7 +339,7 @@ export default class Main extends Phaser.Scene {
 
         if (Phaser.Input.Keyboard.JustDown(this.keySpace)) {
             const rnd = Math.random();
-            this.pumpkins.createOne(1040, 500, -1 * (300 + rnd * 700), -1 * (0 + (1 - rnd) * 1000));
+            this.pumpkins.createOne(1040, 500, -1 * (300 + rnd * 1000), -1 * (0 + (1 - rnd) * 1000));
         }
 
         this.healthIndicator.setSize(this.health * 3, 16);
@@ -445,20 +447,24 @@ export default class Main extends Phaser.Scene {
         }
     };
 
-    animatePlayer = (animationName) => {
+    animatePlayer = (animationName) => this.animate(this.player, animationName);
+
+    tweenPlayer = (tweenParams) => this.tween(this.player, tweenParams);
+
+    animate = (gameObject, animationName) => {
         return new Promise((resolve) => {
-            this.player.anims.stop();
-            this.player.once('animationcomplete', () => {
+            gameObject.anims.stop();
+            gameObject.once('animationcomplete', () => {
                 resolve();
             });
-            this.player.anims.play(animationName, true);
+            gameObject.anims.play(animationName, true);
         });
     };
 
-    tweenPlayer = (tweenParams) => {
+    tween = (gameObject, tweenParams) => {
         return new Promise((resolve) => {
             this.activeTween = this.tweens.add({
-                targets: this.player,
+                targets: gameObject,
                 ease: 'Sine.easeOut',
                 repeat: 0,
                 yoyo: true,
@@ -482,11 +488,15 @@ export default class Main extends Phaser.Scene {
             .image(640, 260, 'game_over')
             .setScale(8)
             .setInteractive();
-        this.input.once('pointerdown', () => {
-            this.scene.restart();
-        });
-        this.input.keyboard.once('keydown-SPACE', () => {
-            this.scene.restart();
+
+        this.time.delayedCall(this.gameOverDelay, () => {
+            this.add.image(640, 360, 'continue').setScale(6);
+            this.input.once('pointerdown', () => {
+                this.scene.restart();
+            });
+            this.input.keyboard.once('keydown-SPACE', () => {
+                this.scene.restart();
+            });
         });
     };
 
