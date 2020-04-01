@@ -47,6 +47,27 @@ export default class Main extends Phaser.Scene {
         this.jumpTopY = 150;
         this.groundHeight = 50;
         this.strikeFrameRate = 14;
+        this.mp3s = [
+            'did_you_do_a_homework_2', //
+            'did_you_do_a_homework', //
+            'it_does_not_matter',
+            'what_is_your_favorite_game', //
+            'does_game_have_fighters',
+            'father_need_to_work', //
+            'does_your_father_have_a_power', //
+            'do_you_have_dinner', //
+            'good_news',
+            'give_me_a_sandwitch', //
+            'go_to_ussr', //
+            // 'give_me_a_sandwitch_2',
+            // 'do_you_have_dinner_2',
+        ];
+        this.currentSound = 0;
+        this.gameOvers = 0;
+
+        const modifier = 5;
+        this.soundOnGameOvers = [5, 6, 10, 13, 17, 18, 25, 28].map((v) => v + modifier);
+        this.doubleSoundOnGameOvers = [6, 10, 13].map((v) => v + modifier);
     }
 
     preload() {
@@ -69,9 +90,20 @@ export default class Main extends Phaser.Scene {
             frameWidth: 50,
             frameHeight: 50,
         });
+        this.load.spritesheet('angry', 'src/assets/angry.png', {
+            frameWidth: 184,
+            frameHeight: 104,
+        });
         this.load.image('bang_word', 'src/assets/bang_word.png');
         this.load.image('pow_word', 'src/assets/pow_word.png');
         this.load.image('game_over', 'src/assets/game_over.png');
+        this.load.image('continue', 'src/assets/continue.png');
+
+        this.mp3s.forEach((fileName) => {
+            this.load.audio(fileName, `src/assets/mp3/${fileName}.mp3`, {
+                instances: 1,
+            });
+        });
     }
 
     create() {
@@ -157,6 +189,56 @@ export default class Main extends Phaser.Scene {
             repeat: 0,
         });
 
+        this.sounds = {};
+        this.mp3s.forEach((name) => {
+            this.sounds[name] = this.sound.add(name);
+        });
+
+        this.anims.create({
+            key: 'angry',
+            frames: this.anims.generateFrameNumbers('angry', { start: 0, end: 5 }),
+            frameRate: 12,
+            repeat: -1,
+        });
+
+        this.angry = this.add
+            .sprite(0, 0, 'angry')
+            .setOrigin(0, 1)
+            .setDepth(1000)
+            .setVisible(false);
+        this.angry.setPosition(-this.angry.width, this.screenHeight() + this.angry.height);
+
+        this.say = async (audio) => {
+            this.angry.anims.stop();
+            this.angry.setFrame(3);
+            this.angry.setVisible(true);
+            await this.tween(this.angry, {
+                x: 0,
+                y: this.screenHeight(),
+                duration: 500,
+                yoyo: false,
+            });
+            this.sounds[audio].play({ volume: 0.5 });
+            this.time.delayedCall(this.sounds[audio].duration * 1000, async () => {
+                this.angry.anims.stop();
+                this.angry.setFrame(3);
+                await this.tween(this.angry, {
+                    x: -this.angry.width,
+                    y: this.screenHeight() + this.angry.height,
+                    duration: 500,
+                    yoyo: false,
+                });
+                this.angry.setVisible(false);
+            });
+            this.angry.anims.play('angry');
+        };
+
+        // if (!this.gameOvers) {
+        //     this.time.delayedCall(Math.random() * 5000, () => {
+        //         this.say('go_to_ussr');
+        //     });
+        // }
+
         this.bangs2 = new BangGroup2(this.physics.world, this);
         this.bangs = new BangGroup(this.physics.world, this);
         this.pows = new PowGroup(this.physics.world, this);
@@ -181,7 +263,7 @@ export default class Main extends Phaser.Scene {
             } else {
                 this.bangs.createOne(pumpkin, player);
                 deactivate(pumpkin);
-                this.health = Math.max(0, this.health - 150);
+                this.health = Math.max(0, this.health - 15);
                 if (!this.health) {
                     await this.fall(direction);
                     this.gameOver();
@@ -337,7 +419,7 @@ export default class Main extends Phaser.Scene {
 
         if (Phaser.Input.Keyboard.JustDown(this.keySpace)) {
             const rnd = Math.random();
-            this.pumpkins.createOne(1040, 500, -1 * (300 + rnd * 700), -1 * (0 + (1 - rnd) * 1000));
+            this.pumpkins.createOne(1040, 500, -1 * (300 + rnd * 1000), -1 * (0 + (1 - rnd) * 1000));
         }
 
         this.healthIndicator.setSize(this.health * 3, 16);
@@ -445,20 +527,24 @@ export default class Main extends Phaser.Scene {
         }
     };
 
-    animatePlayer = (animationName) => {
+    animatePlayer = (animationName) => this.animate(this.player, animationName);
+
+    tweenPlayer = (tweenParams) => this.tween(this.player, tweenParams);
+
+    animate = (gameObject, animationName) => {
         return new Promise((resolve) => {
-            this.player.anims.stop();
-            this.player.once('animationcomplete', () => {
+            gameObject.anims.stop();
+            gameObject.once('animationcomplete', () => {
                 resolve();
             });
-            this.player.anims.play(animationName, true);
+            gameObject.anims.play(animationName, true);
         });
     };
 
-    tweenPlayer = (tweenParams) => {
+    tween = (gameObject, tweenParams) => {
         return new Promise((resolve) => {
             this.activeTween = this.tweens.add({
-                targets: this.player,
+                targets: gameObject,
                 ease: 'Sine.easeOut',
                 repeat: 0,
                 yoyo: true,
@@ -477,16 +563,39 @@ export default class Main extends Phaser.Scene {
     };
 
     gameOver = async () => {
+        this.gameOvers += 1;
         this.gameIsOver = true;
         this.add
             .image(640, 260, 'game_over')
             .setScale(8)
             .setInteractive();
-        this.input.once('pointerdown', () => {
-            this.scene.restart();
-        });
-        this.input.keyboard.once('keydown-SPACE', () => {
-            this.scene.restart();
+
+        let delay = 1000;
+        if (this.soundOnGameOvers.includes(this.gameOvers)) {
+            delay = 5000;
+            this.time.delayedCall(1000, () => {
+                this.say(this.mp3s[this.currentSound]);
+                this.currentSound += 1;
+            });
+        }
+        if (this.doubleSoundOnGameOvers.includes(this.gameOvers)) {
+            delay = 8000;
+            this.time.delayedCall(6000, () => {
+                this.say(this.mp3s[this.currentSound]);
+                this.currentSound += 1;
+            });
+        }
+        this.time.delayedCall(delay, () => {
+            this.add
+                .image(640, 360, 'continue')
+                .setScale(6)
+                .setInteractive();
+            this.input.once('pointerdown', () => {
+                this.scene.restart();
+            });
+            this.input.keyboard.once('keydown-SPACE', () => {
+                this.scene.restart();
+            });
         });
     };
 
