@@ -39,15 +39,16 @@ const QueueManager = (scene) => {
 export default class Main extends Phaser.Scene {
     constructor() {
         super('main');
+        this.timeScale = 1;
         this.velocityStep = 400;
         this.damageVelocity = 300;
         this.jumpVelocity = 600;
-        this.jumpDuration = 400;
-        this.uppercutDuration = 300;
         this.jumpHeight = 500;
-        this.uppercutHeight = 500;
+        this.jumpDuration = 400;
+        this.uppercutHeight = 400;
+        this.uppercutDuration = 300;
         this.groundHeight = 50;
-        this.strikeFrameRate = 14;
+        this.strikeFrameRate = 18;
         this.gameOverDelay = 1000;
         this.pumpkinTime = 0;
         this.pumpkinTreshold = 350;
@@ -85,6 +86,8 @@ export default class Main extends Phaser.Scene {
     }
 
     create() {
+        this.setTimeScale(1);
+
         // Фон
         this.add
             .image(this.screenCenterX(), this.screenHeight(), 'background')
@@ -113,14 +116,15 @@ export default class Main extends Phaser.Scene {
         this.maneken = this.physics.add.sprite(1040, 550, 'maneken').setScale(2);
         this.apple = this.physics.add.sprite(750, 500, 'apple').setScale(2);
 
-        this.createSimpleAnimation({ name: 'rumble_stance', end: 14, frameRate: 12 });
-        this.createSimpleAnimation({ name: 'rumble_move', end: 14 });
-        this.createSimpleAnimation({ name: 'rumble_uppercut', start: 3, end: 6, frameRate: 7 });
+        this.createSimpleAnimation({ name: 'rumble_stance', end: 14, frameRate: this.frameRate(12) });
+        this.createSimpleAnimation({ name: 'rumble_move', end: 14, frameRate: this.frameRate(14) });
+        this.createSimpleAnimation({ name: 'rumble_uppercut', start: 3, end: 6, frameRate: this.frameRate(7) });
         this.createSimpleAnimation({ name: 'rumble_hooking', prefix: 'rumble_salto', start: 12, end: 14 });
         this.createSimpleAnimation({ name: 'rumble_squat' });
-        this.createSimpleAnimation({ name: 'rumble_damage', frameRate: 7 });
-        this.createSimpleAnimation({ name: 'rumble_fallen', frameRate: 7 });
+        this.createSimpleAnimation({ name: 'rumble_damage', frameRate: this.frameRate(7) });
+        this.createSimpleAnimation({ name: 'rumble_fallen', frameRate: this.frameRate(7) });
         this.createSimpleAnimation({ name: 'rumble_jump_kick', start: 1, end: 5 });
+        this.createSimpleAnimation({ name: 'rumble_double_punch', start: 1, end: 9 });
         const punches = this.createAnimation({
             name: 'rumble_punches',
             parts: {
@@ -141,36 +145,36 @@ export default class Main extends Phaser.Scene {
         this.jumpAnimation = this.createAnimation({
             name: 'rumble_jump',
             parts: {
-                start: { frames: [1], frameRate: 4 },
-                up: { frames: [2] },
-                down: { frames: [3, 4], repeat: -1 },
-                landing: { frames: [5] },
+                start: { frames: [1], frameRate: this.frameRate(4) },
+                up: { frames: [2], frameRate: this.frameRate(4) },
+                down: { frames: [3, 4], frameRate: this.frameRate(14), repeat: -1 },
+                landing: { frames: [5], frameRate: this.frameRate(14) },
             },
         });
 
         this.anims.create({
             key: 'bang',
             frames: this.anims.generateFrameNumbers('bang_word', { start: 0, end: 1 }),
-            frameRate: 10,
+            frameRate: this.frameRate(10),
             repeat: 0,
         });
         this.anims.create({
             key: 'bang2',
             frames: this.anims.generateFrameNumbers('bang2', { start: 0, end: 4 }),
-            frameRate: 28,
+            frameRate: this.frameRate(28),
             repeat: 0,
         });
         this.anims.create({
             key: 'pow',
             frames: this.anims.generateFrameNumbers('pow_word', { start: 0, end: 1 }),
-            frameRate: 7,
+            frameRate: this.frameRate(7),
             repeat: 0,
         });
 
         this.anims.create({
             key: 'angry',
             frames: this.anims.generateFrameNumbers('angry', { start: 0, end: 5 }),
-            frameRate: 12,
+            frameRate: this.frameRate(12),
             repeat: -1,
         });
 
@@ -247,6 +251,7 @@ export default class Main extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.cameras.main.fadeIn(1000);
 
@@ -293,6 +298,15 @@ export default class Main extends Phaser.Scene {
             this.setStrike(null);
         };
 
+        this.doublePunch = async () => {
+            this.setStrike('doublePunch');
+            if (!this.jumping) {
+                this.player.setVelocityX(0);
+            }
+            await this.animatePlayer('rumble_double_punch');
+            this.setStrike(null);
+        };
+
         this.uppercut = async () => {
             this.player.setVelocityX(0);
             this.setStrike('uppercut');
@@ -324,7 +338,11 @@ export default class Main extends Phaser.Scene {
                 ease: 'Sine.easeIn',
             });
             this.player.setVelocityX(0);
-            if (this.queue.isEmpty() && !this.inShock) {
+            if (this.strike === 'doublePunch') {
+                this.shakeGround();
+            } else if (this.queue.isEmpty() && !this.inShock) {
+                this.shakeGround(0.2);
+                this.jumping = 'landing';
                 await this.animatePlayer(this.jumpAnimation.landing);
             }
             this.jumping = false;
@@ -433,6 +451,15 @@ export default class Main extends Phaser.Scene {
             }
         }
 
+        // Удар двумя руками
+        if (Phaser.Input.Keyboard.JustDown(this.keyQ)) {
+            if (this.strike) {
+                this.queue.add(this.doublePunch);
+            } else {
+                this.doublePunch();
+            }
+        }
+
         // В воздухе
         if (this.jumping) {
             // Бить ногой можно,когда летишь вверх или когда летишь вниз, но достаточно высоко
@@ -488,8 +515,8 @@ export default class Main extends Phaser.Scene {
         }
     }
 
-    shakeGround = () => {
-        this.cameras.main.shake(200, 0.005, true);
+    shakeGround = (power = 0.5) => {
+        this.cameras.main.shake(400 * power, 0.01 * power, true);
     };
 
     setStrike = (strike) => {
@@ -552,6 +579,17 @@ export default class Main extends Phaser.Scene {
         });
     };
 
+    setTimeScale(timeScale = 1) {
+        this.timeScale = timeScale;
+        this.tweens.timeScale = timeScale;
+        this.physics.world.timeScale = 1 / timeScale; // o_O
+        this.time.timeScale = timeScale;
+    }
+
+    frameRate(frameRate) {
+        return (frameRate || this.strikeFrameRate) * this.timeScale;
+    }
+
     screenWidth() {
         return this.cameras.main.width;
     }
@@ -588,7 +626,7 @@ export default class Main extends Phaser.Scene {
                 start,
                 end,
             }),
-            frameRate: this.strikeFrameRate,
+            frameRate: this.frameRate(),
             repeat: 0,
             ...animationParams,
         });
