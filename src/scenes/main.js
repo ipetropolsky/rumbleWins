@@ -44,16 +44,20 @@ export default class Main extends Phaser.Scene {
         this.jumpVelocity = 600;
         this.jumpDuration = 400;
         this.uppercutDuration = 300;
-        this.jumpTopY = 150;
+        this.jumpHeight = 500;
+        this.uppercutHeight = 500;
         this.groundHeight = 50;
         this.strikeFrameRate = 14;
         this.gameOverDelay = 1000;
+        this.pumpkinTime = 0;
+        this.pumpkinTreshold = 350;
     }
 
     preload() {
         this.load.image('background', 'src/assets/background.jpg');
         this.load.atlas('rumble', 'src/assets/rumble.png', 'src/assets/rumble.json');
         this.load.image('spacer', 'src/assets/spacer_white.gif');
+        this.load.image('rumble_name', 'src/assets/rumble-name.png');
         this.load.spritesheet('maneken', 'src/assets/maneken_120x120.png', {
             frameWidth: 120,
             frameHeight: 120,
@@ -83,7 +87,7 @@ export default class Main extends Phaser.Scene {
     create() {
         // Фон
         this.add
-            .image(this.screenWidth() / 2, this.screenHeight(), 'background')
+            .image(this.screenCenterX(), this.screenHeight(), 'background')
             .setOrigin(0.5, 1)
             .setScale(1);
 
@@ -210,6 +214,10 @@ export default class Main extends Phaser.Scene {
         this.add.rectangle(180, 30, 300, 16, 0xffffff);
         this.healthIndicator = this.add.rectangle(180, 30, 300, 16, 0xea6447);
         this.add.rectangle(180, 30, 300, 16, 0xffffff, 0).setStrokeStyle(2, 0x0a3730);
+        this.add
+            .image(20, 40, 'rumble_name')
+            .setOrigin(0, 0)
+            .setScale(2);
 
         this.pumpkins = new PumpkinGroup(this.physics.world, this);
         this.physics.add.overlap(this.pumpkins, this.ground, (p1, p2) => {
@@ -289,7 +297,7 @@ export default class Main extends Phaser.Scene {
             this.player.setVelocityX(0);
             this.setStrike('uppercut');
             this.player.anims.play('rumble_uppercut', true);
-            await this.tweenPlayer({ duration: this.uppercutDuration, y: this.jumpTopY + 100 });
+            await this.tweenPlayer({ duration: this.uppercutDuration, y: this.groundY() - this.uppercutHeight });
             this.setStrike(null);
         };
 
@@ -307,7 +315,7 @@ export default class Main extends Phaser.Scene {
             this.player.once('animationcomplete', () => {
                 this.jumping = 'up';
             });
-            await this.tweenPlayer({ duration: this.jumpDuration, y: this.jumpTopY, yoyo: false });
+            await this.tweenPlayer({ duration: this.jumpDuration, y: this.groundY() - this.jumpHeight, yoyo: false });
             this.jumping = 'down';
             await this.tweenPlayer({
                 duration: this.jumpDuration,
@@ -380,9 +388,10 @@ export default class Main extends Phaser.Scene {
 
         this.updatePlayerBody();
 
-        if (Phaser.Input.Keyboard.JustDown(this.keySpace)) {
+        if (Phaser.Input.Keyboard.JustDown(this.keySpace) && this.time.now - this.pumpkinTime > this.pumpkinTreshold) {
             const rnd = Math.random();
             this.pumpkins.createOne(1040, 500, -1 * (300 + rnd * 1000), -1 * (0 + (1 - rnd) * 1000));
+            this.pumpkinTime = this.time.now;
         }
 
         this.healthIndicator.setSize(this.health * 3, 16);
@@ -544,11 +553,15 @@ export default class Main extends Phaser.Scene {
     };
 
     screenWidth() {
-        return this.sys.scale.width;
+        return this.cameras.main.width;
+    }
+
+    screenCenterX() {
+        return this.cameras.main.centerX;
     }
 
     screenHeight() {
-        return this.sys.scale.height;
+        return this.cameras.main.height;
     }
 
     groundY() {
