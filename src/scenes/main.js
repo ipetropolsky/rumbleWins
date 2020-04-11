@@ -52,7 +52,9 @@ export default class Main extends Phaser.Scene {
         this.gameOverDelay = 1000;
         this.pumpkinDamage = 15;
         this.pumpkinTime = 0;
-        this.pumpkinTreshold = 2000;
+        this.pumpkinTreshold = 3000;
+        this.rumbleScale = 2;
+        this.rumbleBodyOffset = 10;
     }
 
     preload() {
@@ -108,14 +110,24 @@ export default class Main extends Phaser.Scene {
         // Рамбл
         this.player = this.physics.add
             .sprite(300, this.groundY() - 1, 'rumble')
-            .setOrigin(0, 1)
-            .setScale(2);
-        // .setCollideWorldBounds(true);
+            .setOrigin(0.5, 1)
+            .setScale(this.rumbleScale)
+            .setOffset(this.rumbleBodyOffset, this.rumbleBodyOffset);
         this.player.body.setBoundsRectangle(new Phaser.Geom.Rectangle(0, 0, this.screenWidth(), this.groundY()));
+
+        // Файербол
+        this.fire = this.physics.add
+            .sprite(0, 0, 'rumble', 'rumble_fire_00001')
+            .setVisible(false)
+            .setScale(this.rumbleScale)
+            .setOffset(this.rumbleBodyOffset, this.rumbleBodyOffset)
+            .setDebugBodyColor(0xff8888);
+
         this.updatePlayerBody();
 
-        this.maneken = this.physics.add.sprite(1040, 550, 'maneken').setScale(2);
-        this.apple = this.physics.add.sprite(750, 500, 'apple').setScale(2);
+        this.maneken = this.physics.add.sprite(1040, 550, 'maneken').setScale(this.rumbleScale);
+        this.apple = this.physics.add.sprite(750, 500, 'apple').setScale(this.rumbleScale);
+        window.apple = this.apple;
 
         this.createSimpleAnimation({ name: 'rumble_stance', end: 14, frameRate: this.frameRate(12) });
         this.createSimpleAnimation({ name: 'rumble_move', end: 14, frameRate: this.frameRate(14) });
@@ -126,10 +138,11 @@ export default class Main extends Phaser.Scene {
         this.createSimpleAnimation({ name: 'rumble_jump_kick', start: 1, end: 5 });
         this.createSimpleAnimation({ name: 'rumble_double_punch', start: 1, end: 9 });
         this.createSimpleAnimation({ name: 'rumble_low_punch', start: 1, end: 3 });
+        this.createSimpleAnimation({ name: 'rumble_jumping_low_punch', start: 1, end: 3 });
         this.createSimpleAnimation({ name: 'rumble_block' });
         this.createSimpleAnimation({ name: 'rumble_squat' });
         this.createSimpleAnimation({ name: 'rumble_squat_block', start: 1, end: 1 });
-        this.createSimpleAnimation({ name: 'rumble_fireball', start: 1, end: 10 });
+        this.createSimpleAnimation({ name: 'rumble_fire', start: 1, end: 3, repeat: -1, frameRate: 10 });
         const punches = this.createAnimation({
             name: 'rumble_punches',
             parts: {
@@ -137,6 +150,13 @@ export default class Main extends Phaser.Scene {
                 right: { frames: [4, 5, 6, 7] },
                 // fastRight: { frames: [5, 6, 7] },
                 finishLeft: { frames: [1] },
+            },
+        });
+        const fireball = this.createAnimation({
+            name: 'rumble_fireball',
+            parts: {
+                before: { frames: [1, 2, 3, 4] },
+                after: { start: 5, end: 10 },
             },
         });
         const salto = this.createAnimation({
@@ -235,6 +255,12 @@ export default class Main extends Phaser.Scene {
             this.bangs2.createOne(pumpkin, ground);
             deactivate(pumpkin);
         });
+        this.physics.add.overlap(this.pumpkins, this.fire, (p1, p2) => {
+            const pumpkin = this.pumpkins.contains(p1) ? p1 : p2;
+            const fire = this.pumpkins.contains(p1) ? p2 : p1;
+            this.pows.createOne(pumpkin, fire);
+            deactivate(pumpkin);
+        });
         this.physics.add.overlap(this.pumpkins, this.player, async (player, pumpkin) => {
             const direction = pumpkin.x > player.x ? -1 : 1;
             if (this.strike) {
@@ -323,6 +349,15 @@ export default class Main extends Phaser.Scene {
             this.setStrike(null);
         };
 
+        this.jumpingLowPunch = async () => {
+            if (!this.jumping) {
+                return;
+            }
+            this.setStrike('jumpingLowPunch');
+            await this.animatePlayer('rumble_jumping_low_punch');
+            this.setStrike(null);
+        };
+
         this.uppercut = async () => {
             this.player.setVelocityX(0);
             this.setStrike('uppercut');
@@ -334,7 +369,12 @@ export default class Main extends Phaser.Scene {
         this.fireball = async () => {
             this.player.setVelocityX(0);
             this.setStrike('fireball');
-            await this.animatePlayer('rumble_fireball');
+            await this.animatePlayer(fireball.before);
+            const next = this.animatePlayer(fireball.after);
+            this.fire.setPosition(this.player.x, this.player.y).setVisible(true);
+            this.fire.setVelocity(1200, 0);
+            this.fire.anims.play('rumble_fire', false);
+            await next;
             this.setStrike(null);
         };
 
@@ -458,16 +498,17 @@ export default class Main extends Phaser.Scene {
 
         // Кулаком вниз
         if (Phaser.Input.Keyboard.JustDown(this.keyW)) {
+            const lowPunch = this.jumping ? this.jumpingLowPunch : this.lowPunch;
             if (this.strike) {
-                this.queue.add(this.lowPunch);
+                this.queue.add(lowPunch);
             } else {
-                this.lowPunch();
+                lowPunch();
             }
         }
 
         // Файербол!
         if (Phaser.Input.Keyboard.JustDown(this.keyD)) {
-            if (this.strike) {
+            if (this.jumping || this.strike) {
                 this.queue.add(this.fireball);
             } else {
                 this.fireball();
@@ -482,9 +523,7 @@ export default class Main extends Phaser.Scene {
                 } else {
                     this.uppercut();
                 }
-            } else if (this.jumping) {
-                this.queue.add(this.punchFast);
-            } else if (this.strike) {
+            } else if (this.jumping || this.strike) {
                 this.queue.add(this.punch);
             } else {
                 this.punch();
@@ -621,8 +660,18 @@ export default class Main extends Phaser.Scene {
 
     // Приводит body к размеру фрейма, автоматом ставится только размер gameObject.
     updatePlayerBody = () => {
-        this.player.body.setSize(this.player.frame.realWidth - 20, this.player.frame.realHeight - 20, true);
-        this.player.body.setOffset(10, 10);
+        this.player.body.setSize(
+            this.player.frame.realWidth - 2 * this.rumbleBodyOffset,
+            this.player.frame.realHeight - 2 * this.rumbleBodyOffset,
+            false
+        );
+        if (this.fire.visible) {
+            this.fire.body.setSize(
+                this.fire.frame.realWidth - 2 * this.rumbleBodyOffset,
+                this.fire.frame.realHeight - 2 * this.rumbleBodyOffset,
+                false
+            );
+        }
     };
 
     gameOver = async () => {

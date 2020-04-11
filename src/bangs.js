@@ -34,10 +34,12 @@ export default class BangGroup extends AutoGroup {
     depth = BULLET;
 
     createOne(gameObject1, gameObject2) {
+        const c1 = gameObject1.getCenter();
+        const c2 = gameObject2.getCenter();
         const bang = this.get();
         bang.put(
-            (gameObject1.x + gameObject2.x) / 2,
-            gameObject1.y,
+            (c1.x + c2.x) / 2,
+            c1.y,
             (gameObject1.body.velocity.x + gameObject2.body.velocity.x) / 2,
             (gameObject1.body.velocity.y + gameObject2.body.velocity.y) / 2
         );
