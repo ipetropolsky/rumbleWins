@@ -50,8 +50,9 @@ export default class Main extends Phaser.Scene {
         this.groundHeight = 50;
         this.strikeFrameRate = 18;
         this.gameOverDelay = 1000;
+        this.pumpkinDamage = 15;
         this.pumpkinTime = 0;
-        this.pumpkinTreshold = 350;
+        this.pumpkinTreshold = 2000;
     }
 
     preload() {
@@ -120,11 +121,15 @@ export default class Main extends Phaser.Scene {
         this.createSimpleAnimation({ name: 'rumble_move', end: 14, frameRate: this.frameRate(14) });
         this.createSimpleAnimation({ name: 'rumble_uppercut', start: 3, end: 6, frameRate: this.frameRate(7) });
         this.createSimpleAnimation({ name: 'rumble_hooking', prefix: 'rumble_salto', start: 12, end: 14 });
-        this.createSimpleAnimation({ name: 'rumble_squat' });
         this.createSimpleAnimation({ name: 'rumble_damage', frameRate: this.frameRate(7) });
         this.createSimpleAnimation({ name: 'rumble_fallen', frameRate: this.frameRate(7) });
         this.createSimpleAnimation({ name: 'rumble_jump_kick', start: 1, end: 5 });
         this.createSimpleAnimation({ name: 'rumble_double_punch', start: 1, end: 9 });
+        this.createSimpleAnimation({ name: 'rumble_low_punch', start: 1, end: 3 });
+        this.createSimpleAnimation({ name: 'rumble_block' });
+        this.createSimpleAnimation({ name: 'rumble_squat' });
+        this.createSimpleAnimation({ name: 'rumble_squat_block', start: 1, end: 1 });
+        this.createSimpleAnimation({ name: 'rumble_fireball', start: 1, end: 10 });
         const punches = this.createAnimation({
             name: 'rumble_punches',
             parts: {
@@ -238,7 +243,7 @@ export default class Main extends Phaser.Scene {
             } else {
                 this.bangs.createOne(pumpkin, player);
                 deactivate(pumpkin);
-                this.health = Math.max(0, this.health - 15);
+                this.health = Math.max(0, this.health - this.blockFactor() * this.pumpkinDamage);
                 if (!this.health) {
                     await this.fall(direction);
                     this.gameOver();
@@ -252,6 +257,8 @@ export default class Main extends Phaser.Scene {
         this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.cameras.main.fadeIn(1000);
 
@@ -307,11 +314,27 @@ export default class Main extends Phaser.Scene {
             this.setStrike(null);
         };
 
+        this.lowPunch = async () => {
+            this.setStrike('lowPunch');
+            if (!this.jumping) {
+                this.player.setVelocityX(0);
+            }
+            await this.animatePlayer('rumble_low_punch');
+            this.setStrike(null);
+        };
+
         this.uppercut = async () => {
             this.player.setVelocityX(0);
             this.setStrike('uppercut');
             this.player.anims.play('rumble_uppercut', true);
             await this.tweenPlayer({ duration: this.uppercutDuration, y: this.groundY() - this.uppercutHeight });
+            this.setStrike(null);
+        };
+
+        this.fireball = async () => {
+            this.player.setVelocityX(0);
+            this.setStrike('fireball');
+            await this.animatePlayer('rumble_fireball');
             this.setStrike(null);
         };
 
@@ -357,9 +380,18 @@ export default class Main extends Phaser.Scene {
         this.damage = async (direction = 1) => {
             this.inShock = true;
             this.player.anims.stop();
-            this.player.setVelocityX(this.damageVelocity * direction);
-            await this.animatePlayer('rumble_damage');
-            this.player.setVelocityX(0);
+            if (this.block) {
+                // await this.animatePlayer('rumble_damage');
+                await this.tweenPlayer({
+                    duration: 100,
+                    x: this.player.x + 20 * direction,
+                    yoyo: false,
+                });
+            } else {
+                this.player.setVelocityX(this.blockFactor() * this.damageVelocity * direction);
+                await this.animatePlayer('rumble_damage');
+                this.player.setVelocityX(0);
+            }
             this.inShock = false;
         };
 
@@ -394,6 +426,7 @@ export default class Main extends Phaser.Scene {
 
         this.queue = new QueueManager(this);
         this.prevStrike = null;
+        this.block = false;
         this.strike = null;
         this.jumping = null;
         this.gameIsOver = false;
@@ -406,9 +439,9 @@ export default class Main extends Phaser.Scene {
 
         this.updatePlayerBody();
 
-        if (Phaser.Input.Keyboard.JustDown(this.keySpace) && this.time.now - this.pumpkinTime > this.pumpkinTreshold) {
+        if (this.time.now - this.pumpkinTime > this.pumpkinTreshold) {
             const rnd = Math.random();
-            this.pumpkins.createOne(1040, 500, -1 * (300 + rnd * 1000), -1 * (0 + (1 - rnd) * 1000));
+            this.pumpkins.createOne(1040, 500, -1 * (400 + rnd * 1000), -1 * (0 + (1 - rnd) * 1000));
             this.pumpkinTime = this.time.now;
         }
 
@@ -421,6 +454,24 @@ export default class Main extends Phaser.Scene {
         // Прыжок
         if (!this.jumping && !this.strike && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
             this.jump();
+        }
+
+        // Кулаком вниз
+        if (Phaser.Input.Keyboard.JustDown(this.keyW)) {
+            if (this.strike) {
+                this.queue.add(this.lowPunch);
+            } else {
+                this.lowPunch();
+            }
+        }
+
+        // Файербол!
+        if (Phaser.Input.Keyboard.JustDown(this.keyD)) {
+            if (this.strike) {
+                this.queue.add(this.fireball);
+            } else {
+                this.fireball();
+            }
         }
 
         // Прямые правой/левой и апперкот
@@ -493,8 +544,17 @@ export default class Main extends Phaser.Scene {
                     this.queue.clear();
                 }
 
-                // Движение
-                if (this.cursors.down.isDown) {
+                // Блок
+                this.block = this.keySpace.isDown;
+                if (this.block) {
+                    this.queue.clear();
+                    this.player.setVelocityX(0);
+                    if (this.cursors.down.isDown) {
+                        this.player.anims.play('rumble_squat_block', true);
+                    } else {
+                        this.player.anims.play('rumble_block', true);
+                    }
+                } else if (this.cursors.down.isDown) {
                     this.queue.clear();
                     this.player.setVelocityX(0);
                     this.player.anims.play('rumble_squat', true);
@@ -525,6 +585,10 @@ export default class Main extends Phaser.Scene {
             this.strike = strike;
         }
     };
+
+    blockFactor() {
+        return this.block ? 0.2 : 1;
+    }
 
     animatePlayer = (animationName) => this.animate(this.player, animationName);
 
