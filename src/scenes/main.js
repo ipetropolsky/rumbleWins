@@ -62,10 +62,6 @@ export default class Main extends Phaser.Scene {
         this.load.atlas('rumble', 'src/assets/rumble.png', 'src/assets/rumble.json');
         this.load.image('spacer', 'src/assets/spacer_white.gif');
         this.load.image('rumble_name', 'src/assets/rumble-name.png');
-        this.load.spritesheet('maneken', 'src/assets/maneken_120x120.png', {
-            frameWidth: 120,
-            frameHeight: 120,
-        });
         this.load.spritesheet('apple', 'src/assets/apple_small_32x32.png', {
             frameWidth: 32,
             frameHeight: 32,
@@ -109,7 +105,7 @@ export default class Main extends Phaser.Scene {
 
         // Рамбл
         this.player = this.physics.add
-            .sprite(300, this.groundY() - 1, 'rumble')
+            .sprite(300, this.groundY(), 'rumble')
             .setOrigin(0.5, 1)
             .setScale(this.rumbleScale)
             .setOffset(this.rumbleBodyOffset, this.rumbleBodyOffset);
@@ -125,7 +121,6 @@ export default class Main extends Phaser.Scene {
 
         this.updatePlayerBody();
 
-        this.maneken = this.physics.add.sprite(1040, 550, 'maneken').setScale(this.rumbleScale);
         this.apple = this.physics.add.sprite(750, 500, 'apple').setScale(this.rumbleScale);
         window.apple = this.apple;
 
@@ -150,6 +145,14 @@ export default class Main extends Phaser.Scene {
                 right: { frames: [4, 5, 6, 7] },
                 // fastRight: { frames: [5, 6, 7] },
                 finishLeft: { frames: [1] },
+            },
+        });
+        this.manekenAnims = this.createAnimation({
+            name: 'maneken',
+            parts: {
+                stance: { frames: [1] },
+                wtf: { frames: [2, 1], frameRate: 2 },
+                throw: { frames: [3, 4, 1] },
             },
         });
         const fireball = this.createAnimation({
@@ -238,6 +241,10 @@ export default class Main extends Phaser.Scene {
         this.bangs2 = new BangGroup2(this.physics.world, this);
         this.bangs = new BangGroup(this.physics.world, this);
         this.pows = new PowGroup(this.physics.world, this);
+        this.maneken = this.physics.add
+            .sprite(1040, this.groundY(), 'rumble', 'maneken_00001')
+            .setScale(this.rumbleScale);
+        this.maneken.anims.play('stance');
 
         this.health = 100;
         this.add.rectangle(180, 30, 300, 16, 0xffffff);
@@ -259,12 +266,14 @@ export default class Main extends Phaser.Scene {
             const pumpkin = this.pumpkins.contains(p1) ? p1 : p2;
             const fire = this.pumpkins.contains(p1) ? p2 : p1;
             this.pows.createOne(pumpkin, fire);
+            this.maneken.anims.play(this.manekenAnims.wtf);
             deactivate(pumpkin);
         });
         this.physics.add.overlap(this.pumpkins, this.player, async (player, pumpkin) => {
             const direction = pumpkin.x > player.x ? -1 : 1;
             if (this.strike) {
                 this.pows.createOne(pumpkin, player);
+                this.maneken.anims.play(this.manekenAnims.wtf);
                 deactivate(pumpkin);
             } else {
                 this.bangs.createOne(pumpkin, player);
@@ -483,6 +492,7 @@ export default class Main extends Phaser.Scene {
             const rnd = Math.random();
             this.pumpkins.createOne(1040, 500, -1 * (400 + rnd * 1000), -1 * (0 + (1 - rnd) * 1000));
             this.pumpkinTime = this.time.now;
+            this.maneken.anims.play(this.manekenAnims.throw);
         }
 
         this.healthIndicator.setSize(this.health * 3, 16);
