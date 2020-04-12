@@ -47,7 +47,7 @@ export default class Main extends Phaser.Scene {
         this.jumpDuration = 400;
         this.uppercutHeight = 400;
         this.uppercutDuration = 300;
-        this.groundHeight = 50;
+        this.groundHeight = 40;
         this.strikeFrameRate = 18;
         this.gameOverDelay = 1000;
         this.pumpkinDamage = 15;
@@ -58,7 +58,8 @@ export default class Main extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('background', 'src/assets/background.jpg');
+        this.load.image('background', 'src/assets/tower_640.png');
+        this.load.image('background_part', 'src/assets/tower_part_640.png');
         this.load.atlas('rumble', 'src/assets/rumble.png', 'src/assets/rumble.json');
         this.load.image('spacer', 'src/assets/spacer_white.gif');
         this.load.image('rumble_name', 'src/assets/rumble-name.png');
@@ -91,7 +92,12 @@ export default class Main extends Phaser.Scene {
         this.add
             .image(this.screenCenterX(), this.screenHeight(), 'background')
             .setOrigin(0.5, 1)
-            .setScale(1);
+            .setScale(2);
+        this.add
+            .image(0, this.screenHeight(), 'background_part')
+            .setOrigin(0, 1)
+            .setScale(2)
+            .setDepth(100);
 
         // Земля
         this.ground = this.add
@@ -479,6 +485,7 @@ export default class Main extends Phaser.Scene {
         this.strike = null;
         this.jumping = null;
         this.gameIsOver = false;
+        this.pumpkinTime = this.time.now;
     }
 
     async update() {
