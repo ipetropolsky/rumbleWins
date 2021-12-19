@@ -392,7 +392,8 @@ export default class Main extends Phaser.Scene {
             await this.animatePlayer(fireball.before);
             const next = this.animatePlayer(fireball.after);
             this.fire.setPosition(this.player.x, this.player.y).setVisible(true);
-            this.fire.setVelocity(1200, 0);
+            this.fire.setVelocity(1200 * (this.player.flipX ? -1 : 1), 0);
+            this.fire.flipX = this.player.flipX;
             this.fire.anims.play('rumble_fire', false);
             await next;
             this.setStrike(null);
