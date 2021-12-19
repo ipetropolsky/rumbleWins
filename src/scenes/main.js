@@ -234,8 +234,12 @@ export default class Main extends Phaser.Scene {
                 duration: 500,
                 yoyo: false,
             });
-            // this.sounds[audio].play({ volume: 0.5 });
-            this.time.delayedCall(this.sounds[audio].duration * 1000, async () => {
+            let duration = 1000;
+            if (audio) {
+                duration = this.sounds[audio].duration * 1000;
+                this.sounds[audio].play({ volume: 0.5 });
+            }
+            this.time.delayedCall(duration, async () => {
                 this.angry.anims.stop();
                 this.angry.setFrame(3);
                 await this.tween(this.angry, {
@@ -297,6 +301,7 @@ export default class Main extends Phaser.Scene {
                     await this.damage(direction);
                 }
             }
+            this.say();
         });
 
         this.cursors = this.input.keyboard.createCursorKeys();
