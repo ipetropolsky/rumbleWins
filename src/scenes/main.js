@@ -300,8 +300,8 @@ export default class Main extends Phaser.Scene {
                 } else {
                     await this.damage(direction);
                 }
+                this.say();
             }
-            this.say();
         });
 
         this.cursors = this.input.keyboard.createCursorKeys();
