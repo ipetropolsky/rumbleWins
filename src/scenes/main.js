@@ -545,7 +545,7 @@ export default class Main extends Phaser.Scene {
 
         // Прямые правой/левой и апперкот
         if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
-            if (this.cursors.down.isDown) {
+            if (!this.jumping && this.cursors.down.isDown) {
                 if (this.strike) {
                     this.queue.add(this.uppercut);
                 } else {
