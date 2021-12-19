@@ -19,7 +19,7 @@ const config = {
         },
     },
     pixelArt: true,
-    roundPixels: true,
+    // roundPixels: true,
     scene: [SceneMain],
 };
 
