@@ -1,0 +1,2545 @@
+{
+	"textures": [
+		{
+			"image": "rumble.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 2679,
+				"h": 725
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "maneken_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 55,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 55,
+						"h": 116
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 55,
+						"h": 116
+					},
+					"anchor": {
+						"x": 0.509090909090909,
+						"y": 1
+					}
+				},
+				{
+					"filename": "maneken_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 61,
+						"h": 117
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 61,
+						"h": 117
+					},
+					"frame": {
+						"x": 141,
+						"y": 0,
+						"w": 61,
+						"h": 117
+					},
+					"anchor": {
+						"x": 0.5081967213114754,
+						"y": 1
+					}
+				},
+				{
+					"filename": "maneken_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 49,
+						"h": 115
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 49,
+						"h": 115
+					},
+					"frame": {
+						"x": 282,
+						"y": 0,
+						"w": 49,
+						"h": 115
+					},
+					"anchor": {
+						"x": 0.5714285714285714,
+						"y": 1
+					}
+				},
+				{
+					"filename": "maneken_00004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 55,
+						"h": 115
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 55,
+						"h": 115
+					},
+					"frame": {
+						"x": 423,
+						"y": 0,
+						"w": 55,
+						"h": 115
+					},
+					"anchor": {
+						"x": 0.61818182,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_block_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 123
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 123
+					},
+					"frame": {
+						"x": 564,
+						"y": 0,
+						"w": 64,
+						"h": 123
+					},
+					"anchor": {
+						"x": 0.625,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_damage_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 96,
+						"h": 119
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 96,
+						"h": 119
+					},
+					"frame": {
+						"x": 705,
+						"y": 0,
+						"w": 96,
+						"h": 119
+					},
+					"anchor": {
+						"x": 0.6875,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_double_punch_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 87,
+						"h": 124
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 87,
+						"h": 124
+					},
+					"frame": {
+						"x": 846,
+						"y": 0,
+						"w": 87,
+						"h": 124
+					},
+					"anchor": {
+						"x": 0.563218,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_double_punch_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 140
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 140
+					},
+					"frame": {
+						"x": 987,
+						"y": 0,
+						"w": 64,
+						"h": 140
+					},
+					"anchor": {
+						"x": 0.515625,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_double_punch_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 104,
+						"h": 130
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 104,
+						"h": 130
+					},
+					"frame": {
+						"x": 1128,
+						"y": 0,
+						"w": 104,
+						"h": 130
+					},
+					"anchor": {
+						"x": 0.346154,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_double_punch_00004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 104,
+						"h": 95
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 104,
+						"h": 95
+					},
+					"frame": {
+						"x": 1269,
+						"y": 0,
+						"w": 104,
+						"h": 95
+					},
+					"anchor": {
+						"x": 0.346154,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_double_punch_00005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 104,
+						"h": 95
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 104,
+						"h": 95
+					},
+					"frame": {
+						"x": 1269,
+						"y": 0,
+						"w": 104,
+						"h": 95
+					},
+					"anchor": {
+						"x": 0.346154,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_double_punch_00006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 99,
+						"h": 92
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 99,
+						"h": 92
+					},
+					"frame": {
+						"x": 1410,
+						"y": 0,
+						"w": 99,
+						"h": 92
+					},
+					"anchor": {
+						"x": 0.343434,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_double_punch_00007",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 99,
+						"h": 92
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 99,
+						"h": 92
+					},
+					"frame": {
+						"x": 1410,
+						"y": 0,
+						"w": 99,
+						"h": 92
+					},
+					"anchor": {
+						"x": 0.343434,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_double_punch_00008",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 81,
+						"h": 96
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 81,
+						"h": 96
+					},
+					"frame": {
+						"x": 1551,
+						"y": 0,
+						"w": 81,
+						"h": 96
+					},
+					"anchor": {
+						"x": 0.432099,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_double_punch_00009",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 81,
+						"h": 112
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 81,
+						"h": 112
+					},
+					"frame": {
+						"x": 1692,
+						"y": 0,
+						"w": 81,
+						"h": 112
+					},
+					"anchor": {
+						"x": 0.506173,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_fallen_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 131,
+						"h": 33
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 131,
+						"h": 33
+					},
+					"frame": {
+						"x": 1833,
+						"y": 0,
+						"w": 131,
+						"h": 33
+					},
+					"anchor": {
+						"x": 0.618321,
+						"y": 0.939394
+					}
+				},
+				{
+					"filename": "rumble_fire_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 85,
+						"h": 84
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 85,
+						"h": 84
+					},
+					"frame": {
+						"x": 1974,
+						"y": 0,
+						"w": 85,
+						"h": 84
+					},
+					"anchor": {
+						"x": -0.36470588,
+						"y": 1.26190476
+					}
+				},
+				{
+					"filename": "rumble_fire_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 134,
+						"h": 53
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 134,
+						"h": 53
+					},
+					"frame": {
+						"x": 2115,
+						"y": 0,
+						"w": 134,
+						"h": 53
+					},
+					"anchor": {
+						"x": 0,
+						"y": 1.6981132075471699
+					}
+				},
+				{
+					"filename": "rumble_fire_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 118,
+						"h": 70
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 118,
+						"h": 70
+					},
+					"frame": {
+						"x": 2256,
+						"y": 0,
+						"w": 118,
+						"h": 70
+					},
+					"anchor": {
+						"x": -0.02542373,
+						"y": 1.41428571
+					}
+				},
+				{
+					"filename": "rumble_fireball_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 65,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 65,
+						"h": 113
+					},
+					"frame": {
+						"x": 2397,
+						"y": 0,
+						"w": 65,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.52307692,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_fireball_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 79,
+						"h": 110
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 79,
+						"h": 110
+					},
+					"frame": {
+						"x": 2538,
+						"y": 0,
+						"w": 79,
+						"h": 110
+					},
+					"anchor": {
+						"x": 0.48101266,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_fireball_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 88,
+						"h": 108
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 88,
+						"h": 108
+					},
+					"frame": {
+						"x": 0,
+						"y": 145,
+						"w": 88,
+						"h": 108
+					},
+					"anchor": {
+						"x": 0.42045455,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_fireball_00004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 91,
+						"h": 105
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 91,
+						"h": 105
+					},
+					"frame": {
+						"x": 141,
+						"y": 145,
+						"w": 91,
+						"h": 105
+					},
+					"anchor": {
+						"x": 0.40659341,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_fireball_00005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 126,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 126,
+						"h": 100
+					},
+					"frame": {
+						"x": 282,
+						"y": 145,
+						"w": 126,
+						"h": 100
+					},
+					"anchor": {
+						"x": 0.32539683,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_fireball_00006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 121,
+						"h": 96
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 121,
+						"h": 96
+					},
+					"frame": {
+						"x": 423,
+						"y": 145,
+						"w": 121,
+						"h": 96
+					},
+					"anchor": {
+						"x": 0.32231405,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_fireball_00007",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 122,
+						"h": 96
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 122,
+						"h": 96
+					},
+					"frame": {
+						"x": 564,
+						"y": 145,
+						"w": 122,
+						"h": 96
+					},
+					"anchor": {
+						"x": 0.31967213,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_fireball_00008",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 122,
+						"h": 95
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 122,
+						"h": 95
+					},
+					"frame": {
+						"x": 705,
+						"y": 145,
+						"w": 122,
+						"h": 95
+					},
+					"anchor": {
+						"x": 0.31967213,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_fireball_00009",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 93,
+						"h": 101
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 93,
+						"h": 101
+					},
+					"frame": {
+						"x": 846,
+						"y": 145,
+						"w": 93,
+						"h": 101
+					},
+					"anchor": {
+						"x": 0.40860215,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_fireball_00010",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 113
+					},
+					"frame": {
+						"x": 987,
+						"y": 145,
+						"w": 66,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_jump_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 55,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 55,
+						"h": 128
+					},
+					"frame": {
+						"x": 1128,
+						"y": 145,
+						"w": 55,
+						"h": 128
+					},
+					"anchor": {
+						"x": 0.454545,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_jump_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 71,
+						"h": 112
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 71,
+						"h": 112
+					},
+					"frame": {
+						"x": 1269,
+						"y": 145,
+						"w": 71,
+						"h": 112
+					},
+					"anchor": {
+						"x": 0.478873,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_jump_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 71,
+						"h": 115
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 71,
+						"h": 115
+					},
+					"frame": {
+						"x": 1410,
+						"y": 145,
+						"w": 71,
+						"h": 115
+					},
+					"anchor": {
+						"x": 0.478873,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_jump_00004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 71,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 71,
+						"h": 116
+					},
+					"frame": {
+						"x": 1551,
+						"y": 145,
+						"w": 71,
+						"h": 116
+					},
+					"anchor": {
+						"x": 0.478873,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_jump_00005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 74,
+						"h": 97
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 74,
+						"h": 97
+					},
+					"frame": {
+						"x": 1692,
+						"y": 145,
+						"w": 74,
+						"h": 97
+					},
+					"anchor": {
+						"x": 0.540541,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_jump_kick_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 141,
+						"h": 86
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 141,
+						"h": 86
+					},
+					"frame": {
+						"x": 1833,
+						"y": 145,
+						"w": 141,
+						"h": 86
+					},
+					"anchor": {
+						"x": 0.255319,
+						"y": 1.30233
+					}
+				},
+				{
+					"filename": "rumble_jump_kick_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 122,
+						"h": 91
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 122,
+						"h": 91
+					},
+					"frame": {
+						"x": 1974,
+						"y": 145,
+						"w": 122,
+						"h": 91
+					},
+					"anchor": {
+						"x": 0.262295,
+						"y": 1.30769
+					}
+				},
+				{
+					"filename": "rumble_jump_kick_00004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 122,
+						"h": 91
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 122,
+						"h": 91
+					},
+					"frame": {
+						"x": 1974,
+						"y": 145,
+						"w": 122,
+						"h": 91
+					},
+					"anchor": {
+						"x": 0.262295,
+						"y": 1.30769
+					}
+				},
+				{
+					"filename": "rumble_jump_kick_00006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 122,
+						"h": 91
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 122,
+						"h": 91
+					},
+					"frame": {
+						"x": 1974,
+						"y": 145,
+						"w": 122,
+						"h": 91
+					},
+					"anchor": {
+						"x": 0.262295,
+						"y": 1.30769
+					}
+				},
+				{
+					"filename": "rumble_jump_kick_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 122,
+						"h": 92
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 122,
+						"h": 92
+					},
+					"frame": {
+						"x": 2115,
+						"y": 145,
+						"w": 122,
+						"h": 92
+					},
+					"anchor": {
+						"x": 0.262295,
+						"y": 1.30435
+					}
+				},
+				{
+					"filename": "rumble_jump_kick_00005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 122,
+						"h": 92
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 122,
+						"h": 92
+					},
+					"frame": {
+						"x": 2115,
+						"y": 145,
+						"w": 122,
+						"h": 92
+					},
+					"anchor": {
+						"x": 0.262295,
+						"y": 1.30435
+					}
+				},
+				{
+					"filename": "rumble_jump_kick_00007",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 122,
+						"h": 92
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 122,
+						"h": 92
+					},
+					"frame": {
+						"x": 2115,
+						"y": 145,
+						"w": 122,
+						"h": 92
+					},
+					"anchor": {
+						"x": 0.262295,
+						"y": 1.30435
+					}
+				},
+				{
+					"filename": "rumble_jumping_low_punch_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 74,
+						"h": 124
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 74,
+						"h": 124
+					},
+					"frame": {
+						"x": 2256,
+						"y": 145,
+						"w": 74,
+						"h": 124
+					},
+					"anchor": {
+						"x": 0.54054054,
+						"y": 0.93548387
+					}
+				},
+				{
+					"filename": "rumble_jumping_low_punch_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 133,
+						"h": 109
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 133,
+						"h": 109
+					},
+					"frame": {
+						"x": 2397,
+						"y": 145,
+						"w": 133,
+						"h": 109
+					},
+					"anchor": {
+						"x": 0.2556390977443609,
+						"y": 0.9724770642201835
+					}
+				},
+				{
+					"filename": "rumble_jumping_low_punch_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 112,
+						"h": 112
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 112,
+						"h": 112
+					},
+					"frame": {
+						"x": 2538,
+						"y": 145,
+						"w": 112,
+						"h": 112
+					},
+					"anchor": {
+						"x": 0.28571429,
+						"y": 0.91071429
+					}
+				},
+				{
+					"filename": "rumble_low_punch_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 75,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 75,
+						"h": 116
+					},
+					"frame": {
+						"x": 0,
+						"y": 290,
+						"w": 75,
+						"h": 116
+					},
+					"anchor": {
+						"x": 0.53333333,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_low_punch_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 133,
+						"h": 106
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 133,
+						"h": 106
+					},
+					"frame": {
+						"x": 141,
+						"y": 290,
+						"w": 133,
+						"h": 106
+					},
+					"anchor": {
+						"x": 0.2556391,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_low_punch_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 121,
+						"h": 102
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 121,
+						"h": 102
+					},
+					"frame": {
+						"x": 282,
+						"y": 290,
+						"w": 121,
+						"h": 102
+					},
+					"anchor": {
+						"x": 0.26446281,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_move_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 115
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 115
+					},
+					"frame": {
+						"x": 423,
+						"y": 290,
+						"w": 72,
+						"h": 115
+					},
+					"anchor": {
+						"x": 0.541667,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_move_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 118
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 118
+					},
+					"frame": {
+						"x": 564,
+						"y": 290,
+						"w": 72,
+						"h": 118
+					},
+					"anchor": {
+						"x": 0.541667,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_move_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 117
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 117
+					},
+					"frame": {
+						"x": 705,
+						"y": 290,
+						"w": 72,
+						"h": 117
+					},
+					"anchor": {
+						"x": 0.541667,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_move_00004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 116
+					},
+					"frame": {
+						"x": 846,
+						"y": 290,
+						"w": 72,
+						"h": 116
+					},
+					"anchor": {
+						"x": 0.541667,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_move_00005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 115
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 115
+					},
+					"frame": {
+						"x": 987,
+						"y": 290,
+						"w": 72,
+						"h": 115
+					},
+					"anchor": {
+						"x": 0.541667,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_move_00006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 118
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 118
+					},
+					"frame": {
+						"x": 1128,
+						"y": 290,
+						"w": 72,
+						"h": 118
+					},
+					"anchor": {
+						"x": 0.541667,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_move_00007",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 117
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 117
+					},
+					"frame": {
+						"x": 1269,
+						"y": 290,
+						"w": 72,
+						"h": 117
+					},
+					"anchor": {
+						"x": 0.541667,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_move_00008",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 116
+					},
+					"frame": {
+						"x": 1410,
+						"y": 290,
+						"w": 72,
+						"h": 116
+					},
+					"anchor": {
+						"x": 0.541667,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_punches_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 109
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 109
+					},
+					"frame": {
+						"x": 1551,
+						"y": 290,
+						"w": 70,
+						"h": 109
+					},
+					"anchor": {
+						"x": 0.514286,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_punches_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 119,
+						"h": 111
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 119,
+						"h": 111
+					},
+					"frame": {
+						"x": 1692,
+						"y": 290,
+						"w": 119,
+						"h": 111
+					},
+					"anchor": {
+						"x": 0.294118,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_punches_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 110,
+						"h": 111
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 110,
+						"h": 111
+					},
+					"frame": {
+						"x": 1833,
+						"y": 290,
+						"w": 110,
+						"h": 111
+					},
+					"anchor": {
+						"x": 0.318182,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_punches_00004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 77,
+						"h": 118
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 77,
+						"h": 118
+					},
+					"frame": {
+						"x": 1974,
+						"y": 290,
+						"w": 77,
+						"h": 118
+					},
+					"anchor": {
+						"x": 0.571429,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_punches_00005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 126,
+						"h": 107
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 126,
+						"h": 107
+					},
+					"frame": {
+						"x": 2115,
+						"y": 290,
+						"w": 126,
+						"h": 107
+					},
+					"anchor": {
+						"x": 0.261905,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_punches_00006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 122,
+						"h": 102
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 122,
+						"h": 102
+					},
+					"frame": {
+						"x": 2256,
+						"y": 290,
+						"w": 122,
+						"h": 102
+					},
+					"anchor": {
+						"x": 0.270492,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_punches_00007",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 87,
+						"h": 107
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 87,
+						"h": 107
+					},
+					"frame": {
+						"x": 2397,
+						"y": 290,
+						"w": 87,
+						"h": 107
+					},
+					"anchor": {
+						"x": 0.37931,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 113
+					},
+					"frame": {
+						"x": 2538,
+						"y": 290,
+						"w": 66,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.530303,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00017",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 113
+					},
+					"frame": {
+						"x": 2538,
+						"y": 290,
+						"w": 66,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.530303,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 69,
+						"h": 112
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 69,
+						"h": 112
+					},
+					"frame": {
+						"x": 0,
+						"y": 435,
+						"w": 69,
+						"h": 112
+					},
+					"anchor": {
+						"x": 0.521739,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 75,
+						"h": 97
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 75,
+						"h": 97
+					},
+					"frame": {
+						"x": 141,
+						"y": 435,
+						"w": 75,
+						"h": 97
+					},
+					"anchor": {
+						"x": 0.52,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 69,
+						"h": 115
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 69,
+						"h": 115
+					},
+					"frame": {
+						"x": 282,
+						"y": 435,
+						"w": 69,
+						"h": 115
+					},
+					"anchor": {
+						"x": 0.623188,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 79,
+						"h": 119
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 79,
+						"h": 119
+					},
+					"frame": {
+						"x": 423,
+						"y": 435,
+						"w": 79,
+						"h": 119
+					},
+					"anchor": {
+						"x": 0.632911,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 130,
+						"h": 115
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 130,
+						"h": 115
+					},
+					"frame": {
+						"x": 564,
+						"y": 435,
+						"w": 130,
+						"h": 115
+					},
+					"anchor": {
+						"x": 0.530769,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00007",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 133,
+						"h": 89
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 133,
+						"h": 89
+					},
+					"frame": {
+						"x": 705,
+						"y": 435,
+						"w": 133,
+						"h": 89
+					},
+					"anchor": {
+						"x": 0.526316,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00008",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 80,
+						"h": 90
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 80,
+						"h": 90
+					},
+					"frame": {
+						"x": 846,
+						"y": 435,
+						"w": 80,
+						"h": 90
+					},
+					"anchor": {
+						"x": 0.7375,
+						"y": 1.47778
+					}
+				},
+				{
+					"filename": "rumble_salto_00009",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 83,
+						"h": 91
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 83,
+						"h": 91
+					},
+					"frame": {
+						"x": 987,
+						"y": 435,
+						"w": 83,
+						"h": 91
+					},
+					"anchor": {
+						"x": 0.686747,
+						"y": 1.48352
+					}
+				},
+				{
+					"filename": "rumble_salto_00010",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 88,
+						"h": 87
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 88,
+						"h": 87
+					},
+					"frame": {
+						"x": 1128,
+						"y": 435,
+						"w": 88,
+						"h": 87
+					},
+					"anchor": {
+						"x": 0.613636,
+						"y": 1.55172
+					}
+				},
+				{
+					"filename": "rumble_salto_00011",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 129,
+						"h": 132
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 129,
+						"h": 132
+					},
+					"frame": {
+						"x": 1269,
+						"y": 435,
+						"w": 129,
+						"h": 132
+					},
+					"anchor": {
+						"x": 0.418605,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00012",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 123,
+						"h": 63
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 123,
+						"h": 63
+					},
+					"frame": {
+						"x": 1410,
+						"y": 435,
+						"w": 123,
+						"h": 63
+					},
+					"anchor": {
+						"x": 0.398374,
+						"y": 0.984127
+					}
+				},
+				{
+					"filename": "rumble_salto_00013",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 124,
+						"h": 59
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 124,
+						"h": 59
+					},
+					"frame": {
+						"x": 1551,
+						"y": 435,
+						"w": 124,
+						"h": 59
+					},
+					"anchor": {
+						"x": 0.41129,
+						"y": 0.983051
+					}
+				},
+				{
+					"filename": "rumble_salto_00014",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 120,
+						"h": 60
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 120,
+						"h": 60
+					},
+					"frame": {
+						"x": 1692,
+						"y": 435,
+						"w": 120,
+						"h": 60
+					},
+					"anchor": {
+						"x": 0.4,
+						"y": 0.983333
+					}
+				},
+				{
+					"filename": "rumble_salto_00015",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 65,
+						"h": 75
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 65,
+						"h": 75
+					},
+					"frame": {
+						"x": 1833,
+						"y": 435,
+						"w": 65,
+						"h": 75
+					},
+					"anchor": {
+						"x": 0.461538,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_salto_00016",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 74,
+						"h": 97
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 74,
+						"h": 97
+					},
+					"frame": {
+						"x": 1974,
+						"y": 435,
+						"w": 74,
+						"h": 97
+					},
+					"anchor": {
+						"x": 0.513514,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_squat_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 65,
+						"h": 75
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 65,
+						"h": 75
+					},
+					"frame": {
+						"x": 2115,
+						"y": 435,
+						"w": 65,
+						"h": 75
+					},
+					"anchor": {
+						"x": 0.584615,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_squat_block_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 61,
+						"h": 76
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 61,
+						"h": 76
+					},
+					"frame": {
+						"x": 2256,
+						"y": 435,
+						"w": 61,
+						"h": 76
+					},
+					"anchor": {
+						"x": 0.606557,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 65,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 65,
+						"h": 113
+					},
+					"frame": {
+						"x": 2397,
+						"y": 435,
+						"w": 65,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.523077,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 113
+					},
+					"frame": {
+						"x": 2538,
+						"y": 435,
+						"w": 64,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.515625,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 113
+					},
+					"frame": {
+						"x": 0,
+						"y": 580,
+						"w": 66,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.515152,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 115
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 115
+					},
+					"frame": {
+						"x": 141,
+						"y": 580,
+						"w": 66,
+						"h": 115
+					},
+					"anchor": {
+						"x": 0.515152,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 65,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 65,
+						"h": 116
+					},
+					"frame": {
+						"x": 282,
+						"y": 580,
+						"w": 65,
+						"h": 116
+					},
+					"anchor": {
+						"x": 0.523077,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 116
+					},
+					"frame": {
+						"x": 423,
+						"y": 580,
+						"w": 66,
+						"h": 116
+					},
+					"anchor": {
+						"x": 0.530303,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00007",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 113
+					},
+					"frame": {
+						"x": 564,
+						"y": 580,
+						"w": 66,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.530303,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00008",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 67,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 67,
+						"h": 113
+					},
+					"frame": {
+						"x": 705,
+						"y": 580,
+						"w": 67,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.537313,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00009",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 68,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 68,
+						"h": 113
+					},
+					"frame": {
+						"x": 846,
+						"y": 580,
+						"w": 68,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.544118,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00010",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 69,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 69,
+						"h": 113
+					},
+					"frame": {
+						"x": 987,
+						"y": 580,
+						"w": 69,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.550725,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00011",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 69,
+						"h": 115
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 69,
+						"h": 115
+					},
+					"frame": {
+						"x": 1128,
+						"y": 580,
+						"w": 69,
+						"h": 115
+					},
+					"anchor": {
+						"x": 0.550725,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00012",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 67,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 67,
+						"h": 116
+					},
+					"frame": {
+						"x": 1269,
+						"y": 580,
+						"w": 67,
+						"h": 116
+					},
+					"anchor": {
+						"x": 0.537313,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00013",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 116
+					},
+					"frame": {
+						"x": 1410,
+						"y": 580,
+						"w": 66,
+						"h": 116
+					},
+					"anchor": {
+						"x": 0.530303,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_stance_00014",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 113
+					},
+					"frame": {
+						"x": 1551,
+						"y": 580,
+						"w": 66,
+						"h": 113
+					},
+					"anchor": {
+						"x": 0.530303,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_uppercut_00001",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 88
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 88
+					},
+					"frame": {
+						"x": 1692,
+						"y": 580,
+						"w": 70,
+						"h": 88
+					},
+					"anchor": {
+						"x": 0.457143,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_uppercut_00002",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 74,
+						"h": 86
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 74,
+						"h": 86
+					},
+					"frame": {
+						"x": 1833,
+						"y": 580,
+						"w": 74,
+						"h": 86
+					},
+					"anchor": {
+						"x": 0.445946,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_uppercut_00003",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 71,
+						"h": 145
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 71,
+						"h": 145
+					},
+					"frame": {
+						"x": 1974,
+						"y": 580,
+						"w": 71,
+						"h": 145
+					},
+					"anchor": {
+						"x": 0.323944,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_uppercut_00004",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 52,
+						"h": 142
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 52,
+						"h": 142
+					},
+					"frame": {
+						"x": 2115,
+						"y": 580,
+						"w": 52,
+						"h": 142
+					},
+					"anchor": {
+						"x": 0.326923,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_uppercut_00005",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 61,
+						"h": 140
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 61,
+						"h": 140
+					},
+					"frame": {
+						"x": 2256,
+						"y": 580,
+						"w": 61,
+						"h": 140
+					},
+					"anchor": {
+						"x": 0.327869,
+						"y": 1
+					}
+				},
+				{
+					"filename": "rumble_uppercut_00006",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 74,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 74,
+						"h": 116
+					},
+					"frame": {
+						"x": 2397,
+						"y": 580,
+						"w": 74,
+						"h": 116
+					},
+					"anchor": {
+						"x": 0.554054,
+						"y": 1
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:42622b1dee091012fc6d42384a5e55ff:f847623dd9a145f4e541447c84381c3b:d138a93f8d1b9a7f4077616f9cf8a8b7$"
+	}
+}
